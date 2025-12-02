@@ -15,51 +15,43 @@
             <p>El blend perfecto para tu día.</p>
         </div>
         <nav>
-    <ul>
-        <li><a href="#inicio">Inicio</a></li>
-        <li><a href="#menu">Menú</a></li>
-        <li><a href="#nosotros">Sobre Nosotros</a></li>
-        <li><a href="#galeria">Galería</a></li>
-        <li><a href="#contacto">Contacto</a></li>
+            <ul>
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#menu">Menú</a></li>
+                <li><a href="#nosotros">Sobre Nosotros</a></li>
+                <li><a href="#galeria">Galería</a></li>
+                <li><a href="#contacto">Contacto</a></li>
 
-        <!-- 🔍 Barra de búsqueda -->
-        <li>
-            <input type="text" id="buscador" placeholder="Buscar producto..." class="search-input">
-        </li>
+                <li>
+                    <input type="text" id="buscador" placeholder="Buscar producto..." class="search-input">
+                </li>
 
-        <!-- 🛒 Carrito al lado de la barra -->
-        <li>
-            <button class="cart-btn-nav" onclick="openCart()">
-                🛒 <span id="cartCount">0</span>
-            </button>
-        </li>
-    </ul>
-</nav>
+                <li>
+                    <button class="cart-btn-nav" onclick="openCart()">🛒 <span id="cartCount">0</span></button>
+                </li>
+            </ul>
+        </nav>
     </header>
 
     <main>
 
-        <!-- ================= HERO / INICIO ================= -->
         <section id="inicio" class="hero">
             <h2>Donde las Ideas y el Café se Encuentran</h2>
             <p>Descubre granos de origen único y pastelería artesanal en tu nuevo rincón de calma.</p>
             <a href="#menu" class="btn-principal">Explora Nuestro Menú</a>
         </section>
 
-        <!-- ================= MENÚ ================= -->
         <section id="menu" class="menu-section">
             <h2>Nuestro Menú Completo</h2>
            <div class="menu-grid" id="menu-container">
-        </div>
+                </div>
         </section>
 
-        <!-- ================= SOBRE NOSOTROS ================= -->
         <section id="nosotros" class="about-section">
             <h3>Nuestra Historia: El Origen de Punto de Fusión</h3>
             <p>En Punto de Fusión, creemos que la energía de un buen café alimenta la creatividad y la conversación. Nuestro objetivo es ser el punto de encuentro perfecto, combinando la más alta calidad en granos con un ambiente moderno y acogedor. Cada taza es un <em>blend</em> de pasión y precisión.</p>
         </section>
 
-        <!-- ================= GALERÍA ================= -->
         <section id="galeria" class="gallery-section">
             <h2>Galería de Punto de Fusión</h2>
             <div class="gallery-grid">
@@ -91,7 +83,6 @@
             </div>
         </section>
 
-        <!-- ================= CONTACTO ================= -->
         <section id="contacto" class="contact-section">
             <h3>Visítanos</h3>
             <p>Dirección: Calle Miguel Aleman 123, Culiacan Sin.</p>
@@ -109,7 +100,30 @@
         </div>
     </footer>
 
-    <!-- ========== LOGIN / REGISTRO ========== -->
+    <div id="cartModal" class="modal">
+        <div class="modal-content cart-content">
+            
+            <div class="modal-header">
+                <h2>Tu Carrito</h2>
+                <span class="close" onclick="closeModal('cartModal')">&times;</span> 
+            </div>
+            
+             <div id="cartItems" class="cart-items-list">
+                </div>
+
+            <div class="cart-summary">
+                <h3>Total: 
+                <span class="total-price">$<span id="cartTotal">0.00</span></span>
+                </h3>
+            </div>
+
+            <div class="cart-actions">
+                <button class="btn-clear" onclick="clearCart()">Vaciar Carrito</button>
+                <button class="btn-checkout" onclick="alert('¡Gracias por tu compra! (Funcionalidad pendiente)')">Finalizar Pedido</button>
+            </div>
+        </div>
+    </div>
+    
     <button class="login-btn" onclick="openModal('loginModal')">Iniciar Sesión</button>
 
     <div id="loginModal" class="modal">
@@ -136,7 +150,7 @@
     </div>
 
     <script src="script.js"></script>
-   
+    
     
 </body>
 

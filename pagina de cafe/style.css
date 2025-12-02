@@ -339,33 +339,52 @@ footer {
     margin: 0 5px;
 }
 
-/* ========== MODALES ========== */
+/* ======================================= */
+/* 7. MODALES (Login, Registro, Carrito) - CONSOLIDADO Y CORREGIDO */
+/* ======================================= */
 .modal {
-    display: none;
+    /* CORRECCIÓN CLAVE: Solo 'display: none' por defecto. 
+       El JS lo cambiará a 'flex' para mostrar y centrar. */
+    display: none; 
+    
     position: fixed;
-    z-index: 2000;
+    z-index: 2000; 
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
     background: rgba(0,0,0,0.6);
+    
+    /* Mantenemos estas reglas de centrado para que funcionen cuando el JS ponga display:flex */
     justify-content: center;
     align-items: center;
+    
+    overflow: auto;
 }
 
 .modal-content {
     background: var(--color-fondo);
     padding: 30px;
-    width: 350px;
+    width: 90%; 
+    max-width: 400px; 
     border-radius: 10px;
-    text-align: center;
     box-shadow: 0 0 15px rgba(0,0,0,0.3);
+}
+
+/* Encabezado del modal (PARA LA ALINEACIÓN DEL TÍTULO Y LA X) */
+.modal-header {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; 
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
 }
 
 .modal-content input {
     width: 90%;
     padding: 12px;
-    margin: 10px 0;
+    margin: 10px auto; 
     border: 1px solid var(--color-acento);
     border-radius: 5px;
 }
@@ -385,13 +404,19 @@ footer {
     background: var(--color-cafe-oscuro);
 }
 
+/* SOLUCIÓN PARA LA "X" */
 .close {
-    float: right;
     font-size: 28px;
     cursor: pointer;
+    margin-left: 15px; 
+    line-height: 1; 
+    color: #666; 
 }
 
-/* Botón de login en pantalla */
+
+/* ======================================= */
+/* 8. BOTONES FLOTANTES */
+/* ======================================= */
 .login-btn {
     position: fixed;
     bottom: 25px;
@@ -409,64 +434,115 @@ footer {
     background: var(--color-cafe-oscuro);
 }
 
-/* ========== CARRITO ========== */
-.cart-btn {
-    position: static;
-    bottom: 90px;
-    right: 25px;
-    background: var(--color-acento);
-    color: white;
-    padding: 8px 15px;
-    border-radius: 10px;
-    border: none;
-    cursor: pointer;
-    z-index: 3000;
-}
+/* ======================================= */
+/* 9. CARRITO Y ELEMENTOS ASOCIADOS */
+/* ======================================= */
 
-.cart-btn:hover {
-    background: var(--color-cafe-oscuro);
-}
-
-.cart-box button {
-    width: 100%;
-    margin-top: 50px;
-}
-
+/* Estilo para cada producto individual en la lista */
 .cart-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px;
-    background: #f3f3f3;
+    background: #fff; 
+    border: 1px solid #ddd;
     border-radius: 5px;
     margin-bottom: 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
+/* Estilo para el botón Quitar (rojo) */
 .cart-item button {
-    background: #d9534f;
+    background: #d9534f; 
     color: white;
     border: none;
-    padding: 10px 10px;
+    padding: 5px 10px;
     border-radius: 5px;
     cursor: pointer;
+    width: auto; 
+    margin: 0;
 }
 
 .cart-empty {
     color: #666;
     font-style: italic;
+    padding: 20px;
+    text-align: center;
 }
 
-/* responsivo */
-@media (max-width: 600px) {
-    .modal-content, .cart-box { width: 90%; padding: 20px; }
-    header { flex-direction: column; gap: 10px; align-items: flex-start; }
-    nav ul { gap: 10px; flex-wrap: wrap; }
+/* Estilos ESENCIALES para el Resumen del Carrito (Total a pagar) */
+.cart-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    margin-top: 20px;
+    border-top: 2px solid var(--color-cafe-oscuro); 
+    font-size: 1.2rem;
+    font-weight: bold;
 }
 
-.emoji-carrito {
-    font-size:28px;
-    vertical-align: middle;
-    margin-right: 15px;
+/* El h3 alrededor del total no es necesario, solo enfocamos el estilo en el span y el contenedor */
+.cart-summary h3 {
+    margin: 0; /* Elimina márgenes extra si el h3 existe en tu HTML */
+}
+
+.total-price {
+    color: var(--color-cafe-oscuro); 
+    font-size: 1.8rem; 
+}
+
+/* Contenedor de botones (Vaciar y Finalizar) */
+.cart-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* Botones de acción del carrito (Marrón Suave) */
+.btn-clear, .btn-checkout {
+    width: 50%; 
+    padding: 12px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+    background-color: #a89487; /* Marrón Suave */
+}
+
+.btn-clear:hover, .btn-checkout:hover {
+    background-color: #8c7a70;
+}
+
+
+/* ======================================= */
+/* 10. ELEMENTOS DE NAVEGACIÓN (Consolidado) */
+/* ======================================= */
+
+/* Botón de carrito en la barra de navegación */
+.cart-btn-nav {
+    background: var(--color-acento);
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    margin-top: 6px; 
+    margin-bottom: 6px;
+}
+
+.cart-btn-nav:hover {
+    background: var(--color-cafe-oscuro);
+}
+
+/* Consolidación de reglas de alineación */
+nav ul li {
+    display: flex;
+    align-items: center;
+    padding: 0 4px;
 }
 
 /* ====== BUSCADOR DE PRODUCTOS ====== */
@@ -477,48 +553,30 @@ footer {
     border: 1px solid var(--color-acento);
     background: white;
     font-size: 15px;
+    margin-top: 6px; 
+    margin-bottom: 6px;
 }
 
 .search-input:focus {
     outline: none;
     border-color: var(--color-cafe-oscuro);
 }
-/* ======= Carrito dentro del menú ======= */
-.cart-btn-nav {
-    background: var(--color-acento);
-    color: white;
-    padding: 8px 15px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 15px;
-}
 
-.cart-btn-nav:hover {
-    background: var(--color-cafe-oscuro);
-}
-
-/* Ajuste para alinear barra de búsqueda y carrito */
-nav ul li {
-    display: flex;
-    align-items: center;
-}
-
-/* ======== ESPACIO VERTICAL PARA EL MENÚ ======== */
-nav ul li {
-    display: flex;
-    align-items: center;
-    padding: 0 4px;   /* ← espacio lateral */
-}
-
-/* separa la barra del borde superior */
-.search-input {
-    margin-top: 6px;     /* ← agrega espacio arriba */
-    margin-bottom: 6px;  /* ← agrega espacio abajo */
-}
-
-/* botón del carrito con espacio vertical */
-.cart-btn-nav {
-    margin-top: 6px;     /* ← espacio arriba */
-    margin-bottom: 6px;  /* ← espacio abajo */
+/* ======================================= */
+/* 11. RESPONSIVO */
+/* ======================================= */
+@media (max-width: 600px) {
+    .modal-content { 
+        width: 90%; 
+        padding: 20px; 
+    }
+    header { 
+        flex-direction: column; 
+        gap: 10px; 
+        align-items: flex-start; 
+    }
+    nav ul { 
+        gap: 10px; 
+        flex-wrap: wrap; 
+    }
 }
