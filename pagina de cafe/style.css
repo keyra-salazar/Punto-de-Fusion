@@ -369,8 +369,29 @@ footer {
     max-width: 400px; 
     border-radius: 10px;
     box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    position: relative; /* ¡Paso CRÍTICO! Establece el punto de origen (0,0) */
+    background-color: #fefefe;
+    display: flex; /* Habilita el centrado Flexbox */
+    justify-content: center; /* Centrado horizontal */
+    align-items: center;
+    flex-direction: column; /* Alinea los elementos en columna */
+}
+.close {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute; /* ¡CRÍTICO! Se posiciona respecto a .modal-content */
+    top: 5px; /* Ajusta la distancia del borde superior */
+    right: 15px; /* Ajusta la distancia del borde derecho */
+    cursor: pointer;
 }
 
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
 /* Encabezado del modal (PARA LA ALINEACIÓN DEL TÍTULO Y LA X) */
 .modal-header {
     display: flex;
