@@ -139,17 +139,20 @@
         </div>
     </div>
 
-    <div id="registerModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('registerModal')">&times;</span>
-            <h2>Crear Cuenta</h2>
-            <input type="text" id="regUser" placeholder="Usuario">
-            <input type="password" id="regPass" placeholder="Contraseña">
-            <input type="password" id="regPass2" placeholder="Repetir contraseña">
-            <button onclick="register()">Registrar</button>
-            <p>¿Ya tienes cuenta? <a href="#" onclick="switchModal('registerModal','loginModal')">Inicia sesión</a></p>
-        </div>
+<div id="registerModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('registerModal')">&times;</span>
+        <h2>Crear Cuenta</h2>
+        <input type="text" id="regUser" placeholder="Usuario">
+        
+        <input type="email" id="regEmail" placeholder="Correo Electrónico">
+        
+        <input type="password" id="regPass" placeholder="Contraseña">
+        <input type="password" id="regPass2" placeholder="Repetir contraseña">
+        <button onclick="register()">Registrar</button>
+        <p>¿Ya tienes cuenta? <a href="#" onclick="switchModal('registerModal','loginModal')">Inicia sesión</a></p>
     </div>
+</div>
 
     <script src="script.js"></script>
     
