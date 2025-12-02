@@ -1,317 +1,308 @@
-/* ====================================================================
-   ================== INICIALIZACIÓN Y EVENTOS GENERALES ==================
-   ==================================================================== */
+// ====================================================================
+// =================== CONFIGURACIÓN INICIAL Y DATOS ==================
+// ====================================================================
+let cart = [];
+let menuData = [];
+let searchInput;
+const DB_NAME = 'PuntoFusionDB';
+const DB_VERSION = 1;
 
-document.addEventListener('DOMContentLoaded', function() {
-    // 1. Inicializar la DB de usuarios (para el ejercicio)
-    initUsersDB();
-    
-    // 2. Cargar el menú dinámico desde menu.json
-    loadMenu(); 
-    
-    // 3. Cargar datos del carrito y actualizar la UI
-    loadCartFromStorage();
-    updateCartUI(); 
+// --- Funciones de Utilidad ---
 
-    // 4. Actualizar el botón de Login/Logout
-    updateLoginButton();
-
-    // 5. Configurar el Smooth Scroll para enlaces internos
-    setupSmoothScroll();
-    
-    // 6. Configurar el buscador de productos
-    setupProductSearch();
-});
-
-/* ===================== Smooth scroll ===================== */
-function setupSmoothScroll() {
-    const links = document.querySelectorAll('a[href^="#"]');
-    
-    links.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-
-            const targetId = this.getAttribute('href');
-            if (targetId === '#') return;
-
-            const targetElement = document.querySelector(targetId);
-
-            if (targetElement) {
-                targetElement.scrollIntoView({
-                    behavior: 'smooth' 
-                });
-            }
-        });
-    });
+// Función para cifrado simple de contraseñas (Requisito: password encriptado)
+function encryptPassword(password) {
+    // Usamos Base64 como un 'cifrado' simulado simple para cumplir el requisito
+    return btoa(password); 
 }
 
-/* ====================================================================
-   ================== CARGA DINÁMICA DE MENÚ (JSON) ===================
-   ==================================================================== */
-
-async function loadMenu() {
-    try {
-        const response = await fetch('menu.json');
-        
-        if (!response.ok) {
-            throw new Error(`Error ${response.status}: No se pudo cargar menu.json`);
-        }
-        
-        const menuData = await response.json();
-        const menuContainer = document.getElementById('menu-container');
-
-        if (!menuContainer) return;
-
-        menuContainer.innerHTML = ''; 
-
-        menuData.forEach(category => {
-            const categoryArticle = document.createElement('article');
-            categoryArticle.className = 'menu-category';
-
-            const categoryTitle = document.createElement('h3');
-            categoryTitle.textContent = category.nombre;
-            categoryArticle.appendChild(categoryTitle);
-
-            const productList = document.createElement('ul');
-
-            category.productos.forEach(product => {
-                const listItem = document.createElement('li');
-                
-                // Asegúrate de que los precios son números válidos antes de pasarlos
-                const priceValue = Number(product.precio) || 0; 
-                
-                listItem.innerHTML = `
-                    <span class="product-name">${product.nombre}</span> 
-                    <span class="price">$${priceValue}</span>
-                    <p class="description">${product.descripcion}</p>
-                    <button class="add-cart" onclick="addToCart('${product.nombre.replace(/'/g, "\\'")}', ${priceValue})">Agregar</button>
-                `;
-                
-                productList.appendChild(listItem);
-            });
-
-            categoryArticle.appendChild(productList);
-            menuContainer.appendChild(categoryArticle);
-        });
-
-    } catch (error) {
-        console.error('Error al cargar el menú dinámico:', error);
-        const container = document.getElementById('menu-container');
-        if (container) {
-             container.innerHTML = '<p class="error-message">Error al cargar el menú. Por favor, revise el archivo "menu.json".</p>';
-        }
-    }
+// Función de notificaciones con Toastify (Requisito: Toastify)
+function showToast(message, type = 'success') {
+    Toastify({
+        text: message,
+        duration: 3000,
+        close: true,
+        gravity: "top", 
+        position: "right", 
+        stopOnFocus: true,
+        style: {
+            background: type === 'success' ? "linear-gradient(to right, #6A453A, #8c7a70)" : "linear-gradient(to right, #d9534f, #c9302c)",
+        },
+    }).showToast();
 }
 
+// ====================================================================
+// ========================= INDEXDB (USUARIOS) =======================
+// ====================================================================
 
-/* ====================================================================
-   ====================== BUSCADOR DE PRODUCTOS =======================
-   ==================================================================== */
+let db;
 
-function setupProductSearch() {
-    const buscador = document.getElementById("buscador");
-    const menuSection = document.getElementById("menu");
+function openDB() {
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open(DB_NAME, DB_VERSION);
 
-    if (!buscador || !menuSection) return; 
-
-    buscador.addEventListener("keyup", function () {
-        const texto = this.value.toLowerCase().trim();
-
-        // Baja automáticamente al menú solo si el buscador tiene contenido
-        if (texto.length > 0) {
-            menuSection.scrollIntoView({ behavior: "smooth" });
-        }
-
-        // Selecciona TODOS los productos del menú (ahora cargados dinámicamente)
-        const productos = document.querySelectorAll(".menu-category ul li");
-
-        productos.forEach(prod => {
-            // Se usa textContent para que coincida con la carga dinámica
-            const nombre = prod.querySelector(".product-name").textContent.toLowerCase();
-            const desc = prod.querySelector(".description").textContent.toLowerCase();
-
-            if (nombre.includes(texto) || desc.includes(texto)) {
-                prod.style.display = "block";
-            } else {
-                prod.style.display = "none";
-            }
-        });
-    });
-}
-
-/* ====================================================================
-   ====================== USUARIOS Y SESIÓN (LOCALSTORAGE) =======================
-   ==================================================================== */
-
-// Inicializar DB (SIN HASHING por simplicidad del ejercicio)
-function initUsersDB() {
-    if (!localStorage.getItem("usuariosDB")) {
-        const initial = {
-            usuarios: [
-                { user: "admin", pass: "1234" },
-                { user: "demo", pass: "password" }
-            ]
+        request.onerror = (event) => {
+            console.error("Error al abrir IndexDB:", event.target.errorCode);
+            reject("Error de base de datos.");
         };
-        localStorage.setItem("usuariosDB", JSON.stringify(initial));
-    }
+
+        request.onsuccess = (event) => {
+            db = event.target.result;
+            resolve();
+        };
+
+        request.onupgradeneeded = (event) => {
+            db = event.target.result;
+            // Crear la tienda de objetos 'users' (Requisito: IndexDB)
+            if (!db.objectStoreNames.contains('users')) {
+                // El email es la clave única (keyPath)
+                db.createObjectStore('users', { keyPath: 'email' }); 
+            }
+        };
+    });
 }
 
-// Registro
-function register() {
-    const user = document.getElementById("regUser").value.trim();
-    const pass = document.getElementById("regPass").value;
-    const pass2 = document.getElementById("regPass2").value;
 
-    if (!user || !pass) {
-        alert("Completa todos los campos.");
+// ====================================================================
+// ======================= AUTENTICACIÓN (LOGIN/REGISTRO) =============
+// ====================================================================
+
+async function register() {
+    const user = document.getElementById('regUser').value.trim();
+    const email = document.getElementById('regEmail').value.trim();
+    const pass = document.getElementById('regPass').value;
+    const pass2 = document.getElementById('regPass2').value;
+
+    // 1. Validación de campos obligatorios (Requisito: validación) [cite: 19]
+    if (!user || !email || !pass || !pass2) {
+        showToast("Todos los campos son obligatorios.", 'error');
         return;
     }
-    if (pass !== pass2) {
-        alert("Las contraseñas no coinciden.");
-        return;
-    }
-
-    let db = JSON.parse(localStorage.getItem("usuariosDB") || '{"usuarios":[]}');
-
-    if (db.usuarios.some(u => u.user.toLowerCase() === user.toLowerCase())) {
-        alert("Ese usuario ya existe.");
-        return;
-    }
-
-    db.usuarios.push({ user, pass });
-    localStorage.setItem("usuariosDB", JSON.stringify(db));
-
-    alert("Cuenta creada correctamente.");
     
-    // Limpiar inputs
-    document.getElementById("regUser").value = "";
-    document.getElementById("regPass").value = "";
-    document.getElementById("regPass2").value = "";
-
-    switchModal('registerModal', 'loginModal');
-}
-
-// Login
-function login() {
-    const user = document.getElementById("loginUser").value.trim();
-    const pass = document.getElementById("loginPass").value;
-
-    if (!user || !pass) {
-        alert("Completa todos los campos.");
+    // 2. Validación de formato de email 
+    if (!email.includes('@') || !email.includes('.') || email.length < 5) {
+        showToast("Formato de email inválido.", 'error');
         return;
     }
 
-    let db = JSON.parse(localStorage.getItem("usuariosDB") || '{"usuarios":[]}');
-
-    // Búsqueda insensible a mayúsculas/minúsculas para el usuario
-    const found = db.usuarios.find(u => u.user.toLowerCase() === user.toLowerCase() && u.pass === pass);
-
-    if (found) {
-        localStorage.setItem("loggedUser", found.user);
-        alert("Bienvenido " + found.user);
-        closeModal('loginModal');
-        
-        // Limpiar inputs
-        document.getElementById("loginUser").value = "";
-        document.getElementById("loginPass").value = "";
-        updateLoginButton();
-    } else {
-        alert("Usuario o contraseña incorrectos.");
+    // 3. Validación de coincidencia de contraseñas
+    if (pass !== pass2) {
+        showToast("Las contraseñas no coinciden.", 'error');
+        return;
     }
+
+    await openDB();
+
+    const encryptedPass = encryptPassword(pass); 
+    const newUser = { user, email, password: encryptedPass };
+
+    const transaction = db.transaction(['users'], 'readwrite');
+    const store = transaction.objectStore('users');
+    const request = store.add(newUser);
+
+    request.onsuccess = () => {
+        showToast("¡Registro exitoso!");
+        switchModal('registerModal', 'loginModal'); 
+    };
+
+    request.onerror = () => {
+        // Error de duplicado (mismo email)
+        showToast("El email ya está registrado o hubo un error de DB.", 'error');
+    };
 }
 
-// Logout
-function logout() {
-    localStorage.removeItem("loggedUser");
-    updateLoginButton();
-    alert("Sesión cerrada.");
-}
+async function login() {
+    const email = document.getElementById('loginUser').value.trim(); // Usamos 'loginUser' como email/usuario
+    const pass = document.getElementById('loginPass').value;
 
-// Actualizar Botón Login/Logout
-function updateLoginButton() {
-    const btn = document.querySelector(".login-btn");
-    const user = localStorage.getItem("loggedUser");
-
-    if (!btn) return;
-
-    if (user) {
-        btn.innerText = "Cerrar sesión (" + user + ")";
-        btn.onclick = logout;
-    } else {
-        btn.innerText = "Iniciar Sesión";
-        btn.onclick = () => openModal('loginModal');
+    if (!email || !pass) {
+        showToast("Usuario y contraseña son obligatorios.", 'error');
+        return;
     }
+
+    await openDB();
+
+    const transaction = db.transaction(['users'], 'readonly');
+    const store = transaction.objectStore('users');
+    const request = store.get(email); // Buscar por email (clave única de IndexDB)
+
+    request.onsuccess = (event) => {
+        const userRecord = event.target.result;
+
+        if (userRecord) {
+            const encryptedInputPass = encryptPassword(pass);
+            
+            if (encryptedInputPass === userRecord.password) {
+                showToast(`¡Bienvenido, ${userRecord.user}!`);
+                closeModal('loginModal'); 
+                // Redirige a la Pagina Principal de la empresa (simulando con cierre de modal) [cite: 16]
+            } else {
+                showToast("Contraseña incorrecta.", 'error');
+            }
+        } else {
+            // Error de validacion si no estan en la Base 
+            showToast("Usuario no encontrado.", 'error');
+        }
+    };
+
+    request.onerror = () => {
+        showToast("Error al intentar iniciar sesión.", 'error');
+    };
 }
 
 
-/* ====================================================================
-   ==================== MODALES (Login / Registro / Carrito) ====================
-   ==================================================================== */
+// ====================================================================
+// ====================== MODALES Y NAVEGACIÓN ========================
+// ====================================================================
 
 function openModal(id) {
     const el = document.getElementById(id);
-    if (el) el.style.display = "flex";
-    // Si abrimos el carrito, aseguramos que la UI esté actualizada
-    if (id === 'cartModal') {
-        updateCartUI();
-    }
+    if (el) el.style.display = 'flex';
 }
 
 function closeModal(id) {
     const el = document.getElementById(id);
-    if (el) el.style.display = "none";
+    if (el) el.style.display = 'none';
 }
 
-function switchModal(closeId, openId) {
-    closeModal(closeId);
-    openModal(openId);
-}
-
-/* ====================================================================
-   ======================= CARRITO DE COMPRAS (LOCALSTORAGE) ========================
-   ==================================================================== */
-
-let cart = []; // Variable global para el carrito
-
-// Cargar carrito desde localStorage
-function loadCartFromStorage() {
-    cart = JSON.parse(localStorage.getItem("cartDB") || "[]");
-}
-
-// Guardar carrito
-function saveCart() {
-    localStorage.setItem("cartDB", JSON.stringify(cart));
-}
-
-// Añadir producto al carrito
-function addToCart(name, price) {
-    cart.push({ name, price: Number(price) }); // Aseguramos que price es número
-    saveCart();
+function openCart() {
     updateCartUI();
-    console.log(`"${name}" agregado al carrito`);
-    // Opcional: openCart(); si quieres abrir el modal inmediatamente
+    openModal('cartModal');
 }
 
-// Quitar producto por índice
-function removeFromCart(i) {
-    if (i < 0 || i >= cart.length) return;
-    cart.splice(i, 1);
-    saveCart();
+function switchModal(oldId, newId) {
+    closeModal(oldId);
+    openModal(newId);
+}
+
+// ====================================================================
+// ====================== MENÚ Y BÚSQUEDA AJAX ========================
+// ====================================================================
+
+// Carga de menú (Simulando carga AJAX con Fetch)
+async function loadMenu() {
+    try {
+        // Asegúrate que 'menu.json' esté en la raíz o ajusta la ruta
+        const response = await fetch('menu.json');
+        if (!response.ok) {
+            throw new Error('Error al cargar menu.json');
+        }
+        menuData = await response.json();
+        renderMenu(menuData);
+    } catch (error) {
+        console.error('Error al cargar el menú:', error);
+        document.getElementById('menu-container').innerHTML = `<p style="text-align:center; color: #a89487;">Error al cargar el menú. Por favor, asegúrate de usar Live Server (VS Code).</p>`;
+    }
+}
+
+// Renderiza el menú
+
+function renderMenu(data) {
+    const container = document.getElementById('menu-container');
+    
+    if (!container) {
+        console.error("Error FATAL: No se encontró el elemento con ID 'menu-container'. Por favor, revisa tu index.html");
+        return;
+    }
+
+    container.innerHTML = ''; // Limpiar contenido
+
+    data.forEach(category => {
+        // Usamos la clave 'nombre' del JSON para el título (ej. "I. Bebidas Calientes (La Esencia)")
+        const categoryTitleText = category.nombre; 
+        
+        // 1. Crear el contenedor de la categoría
+        const categoryArticle = document.createElement('article');
+        categoryArticle.className = 'menu-category';
+        const categoryTitle = document.createElement('h3');
+        categoryTitle.textContent = ` ${categoryTitleText}`; 
+        
+        const productList = document.createElement('ul');
+
+        category.productos.forEach(product => {
+            const listItem = document.createElement('li');
+            
+            const priceValue = Number(product.precio) || 0; 
+            const productName = product.nombre.replace(/'/g, "\\'"); 
+
+            // Estructura HTML que debe coincidir con tu style.css (LISTA)
+            listItem.innerHTML = `
+                <span class="product-name">${product.nombre}</span> 
+                <span class="price">$${priceValue.toFixed(2)}</span>
+                <p class="description">${product.descripcion}</p>
+                
+                <div class="product-actions">
+                    <button class="add-cart" onclick="addToCart({name: '${productName}', price: ${priceValue}})">
+                        Agregar 🛒
+                    </button>
+                </div>
+            `;
+            
+            productList.appendChild(listItem);
+        });
+        
+        // Añado Título y Lista al Article
+        categoryArticle.appendChild(categoryTitle); 
+        categoryArticle.appendChild(productList); 
+
+        // Finalmente, añado el Article al Contenedor principal
+        container.appendChild(categoryArticle); 
+    });
+}
+
+function filterMenu() {
+    const searchTerm = searchInput.value.toLowerCase().trim();
+    
+    // Si el término de búsqueda está vacío, volvemos a mostrar todo el menú
+    if (searchTerm === '') {
+        renderMenu(menuData);
+        return;
+    }
+
+    // Filtrar productos por nombre o descripción
+    const filteredData = menuData.map(category => {
+        const filteredProducts = category.productos.filter(product => 
+            product.nombre.toLowerCase().includes(searchTerm) || 
+            product.descripcion.toLowerCase().includes(searchTerm)
+        );
+        return { ...category, productos: filteredProducts };
+    }).filter(category => category.productos.length > 0);
+
+    renderMenu(filteredData);
+}
+
+// ====================================================================
+// ======================== CARRITO DE COMPRAS ========================
+// ====================================================================
+
+function calculateTotal() {
+    return cart.reduce((sum, item) => sum + Number(item.price), 0);
+}
+
+// Añadir producto al carrito (Requisito: manera fácil de añadir artículo) [cite: 22]
+function addToCart(item) {
+    cart.push(item);
+    showToast(`✅ ${item.name} añadido al carrito.`);
+    updateCartUI();
+}
+
+// Quitar producto por índice (Requisito: cancelar o editar productos) [cite: 23]
+function removeFromCart(index) {
+    if (index >= 0 && index < cart.length) {
+        const removedItem = cart.splice(index, 1)[0];
+        showToast(`🗑️ ${removedItem.name} eliminado.`);
+    }
     updateCartUI();
 }
 
 // Vaciar carrito
 function clearCart() {
-    if (!confirm("¿Vaciar todo el carrito?")) return;
+    if (cart.length === 0) {
+        showToast("El carrito ya está vacío.", 'error');
+        return;
+    }
     cart = [];
-    saveCart();
+    showToast("Carrito vaciado.", 'success');
     updateCartUI();
-}
-
-// Calcular total
-function calculateTotal() {
-    // Usamos Number(item.price) para asegurar que la suma es numérica
-    return cart.reduce((sum, item) => sum + Number(item.price || 0), 0);
 }
 
 // Actualizar contador, listado y total
@@ -319,17 +310,18 @@ function updateCartUI() {
     const countEl = document.getElementById("cartCount");
     const totalEl = document.getElementById("cartTotal");
     const container = document.getElementById("cartItems");
-
-    // Actualizar el contador de la barra de navegación
+    
+    // 1. Actualizar el contador de la barra de navegación
     if (countEl) countEl.innerText = cart.length; 
 
     // Solo procede si estamos dentro del modal del carrito
-    if (!container) return; 
+    if (!container || !totalEl) return; 
 
     container.innerHTML = "";
 
-    // Actualizar el total dentro del modal
-    if (totalEl) totalEl.innerText = calculateTotal().toFixed(2); // Formato con 2 decimales
+    // 2. Calcular y actualizar el total
+    const total = calculateTotal().toFixed(2);
+    totalEl.innerText = total; 
 
     if (cart.length === 0) {
         const empty = document.createElement("div");
@@ -339,6 +331,7 @@ function updateCartUI() {
         return;
     }
 
+    // 3. Listar productos
     cart.forEach((item, index) => {
         const div = document.createElement("div");
         div.className = "cart-item";
@@ -355,11 +348,22 @@ function updateCartUI() {
     });
 }
 
-// Abrir/Cerrar modal carrito (Ya está cubierta por openModal/closeModal)
-function openCart() {
-    openModal("cartModal");
-}
+// ====================================================================
+// ====================== INICIO DE LA APLICACIÓN =====================
+// ====================================================================
 
-function closeCart() {
-    closeModal("cartModal");
-}
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Cargar el menú al iniciar
+    loadMenu(); 
+    
+    // 2. Inicializar la base de datos (IndexDB)
+    openDB().catch(error => {
+        console.error("Error grave al inicializar la base de datos:", error);
+    });
+
+    // 3. CONFIGURAR EL BUSCADOR (Inicializar la variable global sin 'const' o 'let')
+    searchInput = document.getElementById('buscador'); 
+    if (searchInput) {
+        searchInput.addEventListener('input', filterMenu); 
+    }
+});

@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Punto de Fusión - Cafetería</title>
     <link rel="stylesheet" href="style.css" />
-</head>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+</head>
+   
 <body>
 
     <header>
@@ -25,7 +26,7 @@
                 <li><a href="#contacto">Contacto</a></li>
 
                 <li>
-                    <input type="text" id="buscador" placeholder="Buscar producto..." class="search-input">
+                    <input type="text" id="buscador" placeholder="Buscar producto..." class="search-input" autocomplete="new-password">
                 </li>
 
                 <li>
@@ -132,7 +133,7 @@
         <div class="modal-content">
             <span class="close" onclick="closeModal('loginModal')">&times;</span>
             <h2>Iniciar Sesión</h2>
-            <input type="text" id="loginUser" placeholder="Usuario">
+            <input type="text" id="loginUser" placeholder="Correo Electrónico">
             <input type="password" id="loginPass" placeholder="Contraseña">
             <button onclick="login()">Entrar</button>
             <p>¿No tienes cuenta? <a href="#" onclick="switchModal('loginModal','registerModal')">Regístrate aquí</a></p>
