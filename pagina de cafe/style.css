@@ -1,0 +1,524 @@
+/* ======================================= */
+/* 0. RESET Y FUENTES GLOBALES */
+/* ======================================= */
+:root {
+    --color-cafe-oscuro: #3E2723;
+    --color-crema: #F5EFE6;
+    --color-acento: #A1887F; 
+    --color-fondo: #FFFFFF; 
+    --fuente-titulo: 'Georgia', serif;
+    --fuente-texto: 'Arial', sans-serif; 
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--fuente-texto);
+    color: var(--color-cafe-oscuro);
+    background-color: var(--color-fondo);
+    line-height: 1.6;
+}
+
+/* ======================================= */
+/* 1. ENCABEZADO Y NAVEGACIÓN */
+/* ======================================= */
+header {
+    background-color: var(--color-cafe-oscuro);
+    color: var(--color-crema);
+    padding: 15px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky; 
+    top: 0;
+    z-index: 1000;
+}
+
+.logo h1 {
+    font-family: var(--fuente-titulo);
+    font-size: 1rem;
+    margin-bottom: 2px;
+    margin: 0;
+}
+
+.logo p {
+    font-size: 0.8rem;
+    color: var(--color-acento);
+    margin: 0;
+    padding: 0 15px;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: var(--color-crema);
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+nav ul li a:hover {
+    color: var(--color-acento);
+}
+
+.header-coffee-icon {
+    width: 40px; 
+    height: auto; 
+    margin-top: 5px; 
+    margin-bottom: 5px; 
+    vertical-align: middle; 
+}
+
+.logo {
+    display: flex;
+    flex-direction: row; 
+    gap: 15px; 
+    align-items: center; 
+}
+
+.logo h1 {
+    font-size: 1.8rem;
+    margin-bottom: 0; 
+}
+
+.logo p {
+    font-size: 0.9rem; 
+    color: var(--color-acento); 
+    margin-bottom: 0;
+    white-space: nowrap; 
+}
+
+.header-coffee-icon {
+    width: 50px;
+    height: 50px;
+    margin: 0; 
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* ======================================= */
+/* 2. ESTILOS GENERALES DE SECCIÓN */
+/* ======================================= */
+main section {
+    padding: 80px 5%;
+    text-align: center;
+}
+
+h2 {
+    font-family: var(--fuente-titulo);
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+    color: var(--color-cafe-oscuro);
+}
+
+h3 {
+    font-family: var(--fuente-titulo);
+    font-size: 1.7rem;
+    margin-bottom: 20px;
+    color: var(--color-acento);
+}
+
+/* Botón Principal (CTA) */
+.btn-principal {
+    display: inline-block;
+    background-color: var(--color-acento);
+    color: var(--color-fondo);
+    padding: 12px 30px;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+}
+
+.btn-principal:hover {
+    background-color: var(--color-cafe-oscuro);
+}
+
+
+/* ======================================= */
+/* 3. SECCIÓN HERO/INICIO */
+/* ======================================= */
+.hero {
+    background: url('images/hero-coffee.avif') no-repeat center center/cover;
+    height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+   
+    color: var(--color-fondo); 
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.9);
+    position: relative; 
+    z-index: 1;
+}
+.hero::before {
+    content: ''; 
+    position: absolute; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(62, 39, 35, 0.3); 
+    z-index: -1; 
+}
+
+.hero h2,
+.hero p,
+.hero .btn-principal {
+    z-index: 2; 
+    position: relative; 
+}
+
+.hero h2 {
+    font-size: 3.5rem;
+    color: var(--color-crema);
+}
+
+.hero p {
+    font-size: 1.2rem;
+    max-width: 700px;
+    margin-bottom: 20px;
+}
+
+
+/* ======================================= */
+/* 4. SECCIÓN MENÚ */
+/* ======================================= */
+.menu-section {
+    background-color: var(--color-crema);
+}
+
+.menu-grid {
+    display: grid;
+    /* 2 o 3 columnas en pantallas grandes */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+    gap: 40px;
+    text-align: left;
+    margin-top: 50px;
+}
+
+.menu-category {
+    background-color: var(--color-fondo);
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.menu-category ul {
+    list-style: none;
+}
+
+.menu-category ul li {
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--color-acento);
+}
+
+.menu-category ul li:last-child {
+    border-bottom: none;
+}
+
+.product-name {
+    font-weight: bold;
+    font-size: 1.1rem;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.price {
+    float: right;
+    font-weight: bold;
+    color: var(--color-acento);
+}
+
+.description {
+    font-size: 0.9rem;
+    color: #555;
+    margin-top: 2px;
+}
+
+/* Botón agregar al carrito dentro del menú */
+.add-cart {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 12px;
+    background: var(--color-acento);
+    color: var(--color-fondo);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+.add-cart:hover {
+    background: var(--color-cafe-oscuro);
+}
+
+/* ======================================= */
+/* 5. SECCIÓN GALERÍA */
+/* ======================================= */
+.gallery-section {
+    background-color: var(--color-fondo); 
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+    gap: 20px; 
+    max-width: 1200px; 
+    margin: 40px auto 0 auto; 
+}
+
+.gallery-item {
+    overflow: hidden; 
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.gallery-item img {
+    width: 100%; 
+    height: 300px; 
+    object-fit: cover; 
+    transition: transform 0.3s ease;
+}
+
+.gallery-item img:hover {
+    transform: scale(1.05); 
+}
+
+.gallery-item.large img {
+    height: 400px; 
+}
+
+@media (max-width: 768px) {
+    .gallery-grid {
+        grid-template-columns: 1fr; 
+        padding: 0 5%;
+    }
+    .gallery-item.large img {
+        height: 350px;
+    }
+}
+/* ======================================= */
+/* 5. SECCIONES SECUNDARIAS (Sobre Nosotros, Contacto) */
+/* ======================================= */
+.about-section {
+    background-color: var(--color-fondo);
+}
+
+.about-section p, .contact-section p {
+    max-width: 800px;
+    margin: 0 auto 15px auto;
+    font-size: 1.1rem;
+}
+
+.contact-section {
+    background-color: var(--color-crema);
+}
+
+/* ======================================= */
+/* 6. PIE DE PÁGINA (Footer) */
+/* ======================================= */
+footer {
+    background-color: var(--color-cafe-oscuro);
+    color: var(--color-crema);
+    padding: 20px 5%;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.social-links a {
+    color: var(--color-acento);
+    text-decoration: none;
+    margin: 0 5px;
+}
+
+/* ========== MODALES ========== */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: var(--color-fondo);
+    padding: 30px;
+    width: 350px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 0 15px rgba(0,0,0,0.3);
+}
+
+.modal-content input {
+    width: 90%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid var(--color-acento);
+    border-radius: 5px;
+}
+
+.modal-content button {
+    width: 90%;
+    padding: 12px;
+    background: var(--color-acento);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.modal-content button:hover {
+    background: var(--color-cafe-oscuro);
+}
+
+.close {
+    float: right;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+/* Botón de login en pantalla */
+.login-btn {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    background: var(--color-acento);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    z-index: 3000;
+}
+
+.login-btn:hover {
+    background: var(--color-cafe-oscuro);
+}
+
+/* ========== CARRITO ========== */
+.cart-btn {
+    position: static;
+    bottom: 90px;
+    right: 25px;
+    background: var(--color-acento);
+    color: white;
+    padding: 8px 15px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    z-index: 3000;
+}
+
+.cart-btn:hover {
+    background: var(--color-cafe-oscuro);
+}
+
+.cart-box button {
+    width: 100%;
+    margin-top: 50px;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background: #f3f3f3;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.cart-item button {
+    background: #d9534f;
+    color: white;
+    border: none;
+    padding: 10px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.cart-empty {
+    color: #666;
+    font-style: italic;
+}
+
+/* responsivo */
+@media (max-width: 600px) {
+    .modal-content, .cart-box { width: 90%; padding: 20px; }
+    header { flex-direction: column; gap: 10px; align-items: flex-start; }
+    nav ul { gap: 10px; flex-wrap: wrap; }
+}
+
+.emoji-carrito {
+    font-size:28px;
+    vertical-align: middle;
+    margin-right: 15px;
+}
+
+/* ====== BUSCADOR DE PRODUCTOS ====== */
+
+.search-input {
+    padding: 8px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--color-acento);
+    background: white;
+    font-size: 15px;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--color-cafe-oscuro);
+}
+/* ======= Carrito dentro del menú ======= */
+.cart-btn-nav {
+    background: var(--color-acento);
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.cart-btn-nav:hover {
+    background: var(--color-cafe-oscuro);
+}
+
+/* Ajuste para alinear barra de búsqueda y carrito */
+nav ul li {
+    display: flex;
+    align-items: center;
+}
+
+/* ======== ESPACIO VERTICAL PARA EL MENÚ ======== */
+nav ul li {
+    display: flex;
+    align-items: center;
+    padding: 0 4px;   /* ← espacio lateral */
+}
+
+/* separa la barra del borde superior */
+.search-input {
+    margin-top: 6px;     /* ← agrega espacio arriba */
+    margin-bottom: 6px;  /* ← agrega espacio abajo */
+}
+
+/* botón del carrito con espacio vertical */
+.cart-btn-nav {
+    margin-top: 6px;     /* ← espacio arriba */
+    margin-bottom: 6px;  /* ← espacio abajo */
+}

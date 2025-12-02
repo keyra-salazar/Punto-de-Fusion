@@ -1,0 +1,43 @@
+[
+  {
+    "id": "calientes",
+    "nombre": "☕ I. Bebidas Calientes (La Esencia)",
+    "productos": [
+      { "nombre": "Espresso", "precio": 40, "descripcion": "Un shot concentrado de nuestro blend especial." },
+      { "nombre": "Americano", "precio": 50, "descripcion": "Espresso diluido, perfecto para el día a día." },
+      { "nombre": "Capuchino", "precio": 60, "descripcion": "Espresso, leche texturizada y una capa gruesa de espuma." },
+      { "nombre": "Latte Clásico", "precio": 65, "descripcion": "Nuestro espresso con abundante leche vaporizada." },
+      { "nombre": "Mocha", "precio": 70, "descripcion": "La mezcla perfecta de chocolate, espresso y leche." },
+      { "nombre": "Té Chai Latte", "precio": 60, "descripcion": "Infusión de especias con leche y toque dulce." }
+    ]
+  },
+  {
+    "id": "frias",
+    "nombre": "❄️ II. Bebidas Frías (Refrescantes)",
+    "productos": [
+      { "nombre": "Cold Brew", "precio": 75, "descripcion": "Café infusionado lentamente por 18 horas. Suave y potente." },
+      { "nombre": "Iced Latte", "precio": 65, "descripcion": "Clásico latte servido sobre hielo." },
+      { "nombre": "Affogato", "precio": 80, "descripcion": "Helado de vainilla ahogado en un shot de espresso caliente." },
+      { "nombre": "Frappé de Caramelo", "precio": 85, "descripcion": "Café helado, jarabe de caramelo y crema batida." }
+    ]
+  },
+  {
+    "id": "pasteleria",
+    "nombre": "🥐 III. Pastelería y Repostería (Hecho en Casa)",
+    "productos": [
+      { "nombre": "Croissant de Mantequilla", "precio": 50, "descripcion": "Hojaldre francés, suave y crujiente." },
+      { "nombre": "Muffin de Arándanos", "precio": 55, "descripcion": "Húmedo y con un topping de streusel de avena." },
+      { "nombre": "Brownie Doble Chocolate", "precio": 60, "descripcion": "Denso, meloso y con nueces." },
+      { "nombre": "Tarta del Día", "precio": 80, "descripcion": "Consulta nuestras opciones frescas de temporada." }
+    ]
+  },
+  {
+    "id": "comida",
+    "nombre": "🥪 IV. Algo de Comer (Opciones Ligeras)",
+    "productos": [
+      { "nombre": "Tostada de Aguacate", "precio": 95, "descripcion": "Pan artesanal, aguacate fresco, semillas y un toque de limón." },
+      { "nombre": "Sándwich de Pavo y Queso", "precio": 110, "descripcion": "Pavo ahumado, queso provolone y aderezo en pan de grano." },
+      { "nombre": "Yogur con Granola", "precio": 80, "descripcion": "Yogur natural, granola casera y fruta de estación." }
+    ]
+  }
+]

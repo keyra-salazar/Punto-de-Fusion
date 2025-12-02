@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Punto de Fusión - Cafetería</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <h1>Punto de Fusión</h1>
+            <img src="images/coffee-bean-logo.png" alt="Icono de grano de café" class="header-coffee-icon">
+            <p>El blend perfecto para tu día.</p>
+        </div>
+        <nav>
+    <ul>
+        <li><a href="#inicio">Inicio</a></li>
+        <li><a href="#menu">Menú</a></li>
+        <li><a href="#nosotros">Sobre Nosotros</a></li>
+        <li><a href="#galeria">Galería</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+
+        <!-- 🔍 Barra de búsqueda -->
+        <li>
+            <input type="text" id="buscador" placeholder="Buscar producto..." class="search-input">
+        </li>
+
+        <!-- 🛒 Carrito al lado de la barra -->
+        <li>
+            <button class="cart-btn-nav" onclick="openCart()">
+                🛒 <span id="cartCount">0</span>
+            </button>
+        </li>
+    </ul>
+</nav>
+    </header>
+
+    <main>
+
+        <!-- ================= HERO / INICIO ================= -->
+        <section id="inicio" class="hero">
+            <h2>Donde las Ideas y el Café se Encuentran</h2>
+            <p>Descubre granos de origen único y pastelería artesanal en tu nuevo rincón de calma.</p>
+            <a href="#menu" class="btn-principal">Explora Nuestro Menú</a>
+        </section>
+
+        <!-- ================= MENÚ ================= -->
+        <section id="menu" class="menu-section">
+            <h2>Nuestro Menú Completo</h2>
+           <div class="menu-grid" id="menu-container">
+        </div>
+        </section>
+
+        <!-- ================= SOBRE NOSOTROS ================= -->
+        <section id="nosotros" class="about-section">
+            <h3>Nuestra Historia: El Origen de Punto de Fusión</h3>
+            <p>En Punto de Fusión, creemos que la energía de un buen café alimenta la creatividad y la conversación. Nuestro objetivo es ser el punto de encuentro perfecto, combinando la más alta calidad en granos con un ambiente moderno y acogedor. Cada taza es un <em>blend</em> de pasión y precisión.</p>
+        </section>
+
+        <!-- ================= GALERÍA ================= -->
+        <section id="galeria" class="gallery-section">
+            <h2>Galería de Punto de Fusión</h2>
+            <div class="gallery-grid">
+                
+                <div class="gallery-item large">
+                    <img src="images/establecimiento-interior.jpg" alt="Interior moderno de la cafetería con mesas de madera y buena iluminación">
+                </div>
+                
+                <div class="gallery-item large">
+                    <img src="images/establecimiento-barra.jpg" alt="Barra de café con máquina de espresso y barista preparando una bebida">
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="images/producto-latte-art.jpg" alt="Primer plano de un Latte con arte de corazón">
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="images/producto-croissant.jpg" alt="Croissant recién horneado con café">
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="images/producto-cold-brew.jpg" alt="Cold Brew en vaso helado con hielo">
+                </div>
+
+                <div class="gallery-item">
+                    <img src="images/producto-comida-tostada.jpg" alt="Tostada de aguacate en pan artesanal">
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ================= CONTACTO ================= -->
+        <section id="contacto" class="contact-section">
+            <h3>Visítanos</h3>
+            <p>Dirección: Calle Miguel Aleman 123, Culiacan Sin.</p>
+            <p>Horario: Lunes a Domingo, 7:00 AM - 8:00 PM</p>
+            <p>Teléfono: (555) 123-4567</p>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Punto de Fusión. Todos los derechos reservados.</p>
+        <div class="social-links">
+            <a href="#" target="_blank">Instagram</a> |
+            <a href="#" target="_blank">Facebook</a>
+        </div>
+    </footer>
+
+    <!-- ========== LOGIN / REGISTRO ========== -->
+    <button class="login-btn" onclick="openModal('loginModal')">Iniciar Sesión</button>
+
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('loginModal')">&times;</span>
+            <h2>Iniciar Sesión</h2>
+            <input type="text" id="loginUser" placeholder="Usuario">
+            <input type="password" id="loginPass" placeholder="Contraseña">
+            <button onclick="login()">Entrar</button>
+            <p>¿No tienes cuenta? <a href="#" onclick="switchModal('loginModal','registerModal')">Regístrate aquí</a></p>
+        </div>
+    </div>
+
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('registerModal')">&times;</span>
+            <h2>Crear Cuenta</h2>
+            <input type="text" id="regUser" placeholder="Usuario">
+            <input type="password" id="regPass" placeholder="Contraseña">
+            <input type="password" id="regPass2" placeholder="Repetir contraseña">
+            <button onclick="register()">Registrar</button>
+            <p>¿Ya tienes cuenta? <a href="#" onclick="switchModal('registerModal','loginModal')">Inicia sesión</a></p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+   
+    
+</body>
+
+</html>
