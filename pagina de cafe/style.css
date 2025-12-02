@@ -49,7 +49,7 @@ header {
     font-size: 0.8rem;
     color: var(--color-acento);
     margin: 0;
-    padding: 0 15px;
+    padding: 0 20px;
 }
 
 nav ul {
@@ -80,7 +80,7 @@ nav ul li a:hover {
 .logo {
     display: flex;
     flex-direction: row; 
-    gap: 15px; 
+    gap: 5px; 
     align-items: center; 
 }
 
