@@ -601,3 +601,89 @@ nav ul li {
         flex-wrap: wrap; 
     }
 }
+/* ======================================================= */
+/* MEDIA QUERY: ESTILOS PARA DISPOSITIVOS MÓVILES (MÁXIMO 768PX) */
+/* ======================================================= */
+@media (max-width: 768px) {
+
+    /* --- 1. CONFIGURACIÓN DEL ENCABEZADO PRINCIPAL (header) --- */
+    /* El header contendrá el logo (izquierda) y el menú (abajo) */
+    header {
+        display: flex;
+        /* El logo será el primer elemento y se alineará a la izquierda automáticamente */
+        flex-direction: column; 
+        align-items: flex-start; /* Alinea los elementos a la izquierda */
+        padding: 10px 15px;
+    }
+
+    /* --- 2. LOGOTIPO Y SLOGAN (Corregido a la Izquierda) --- */
+    .logo {
+        /* Eliminamos 'position: absolute' y 'right: 15px' */
+        display: flex;
+        flex-direction: row; 
+        align-items: center; 
+        gap: 5px; 
+        width: auto; 
+        /* Eliminamos las propiedades de posicionamiento absoluto para que quede estático en la esquina superior izquierda */
+        position: static; 
+        margin-top: 0;
+        margin-bottom: 5px; /* Pequeño espacio debajo del logo */
+    }
+
+    /* Ocultar el Slogan (el párrafo dentro de .logo) */
+    .logo p {
+        display: none; 
+    }
+    
+    /* Reducir el tamaño del Título del logo */
+    .logo h1 {
+        font-size: 1.2em; 
+        margin: 0;
+    }
+
+    /* Reducir el tamaño del Icono */
+    .header-coffee-icon {
+        width: 30px; 
+        height: 30px;
+    }
+
+    /* --- 3. BARRA DE NAVEGACIÓN Y BUSCADOR --- */
+    /* La navegación aparecerá justo debajo del logo */
+    nav {
+        width: 100%;
+        margin-top: 0; /* Ya no necesitamos el margen superior que usamos para evitar el logo derecho */
+        order: 1; /* Asegura que la navegación aparezca después del logo */
+    }
+    
+    /* Navegación (nav ul): Mantiene el scroll horizontal */
+    nav ul {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto; 
+        padding-bottom: 10px;
+        padding-left: 0;
+        margin-left: 0;
+        min-width: 100%;
+    }
+    
+    nav ul li {
+        white-space: nowrap;
+        padding: 0 10px;
+        flex-shrink: 0; 
+    }
+
+    /* Reducir el tamaño del buscador */
+    .search-input {
+        width: 120px;
+    }
+
+    /* --- 4. CORRECCIÓN DE TÍTULOS Y DESBORDAMIENTO --- */
+    .hero h2 {
+        font-size: 2.2em; 
+        line-height: 1.2;
+    }
+    
+    body {
+        overflow-x: hidden; 
+    }
+}
