@@ -125,6 +125,10 @@ async function login() {
             if (encryptedInputPass === userRecord.password) {
                 showToast(`¡Bienvenido, ${userRecord.user}!`);
                 closeModal('loginModal'); 
+                const loginBtn = document.querySelector('.login-btn');
+                if (loginBtn) {
+                    loginBtn.style.display = 'none';
+                }
             } else {
                 showToast("Contraseña incorrecta.", 'error');
             }
