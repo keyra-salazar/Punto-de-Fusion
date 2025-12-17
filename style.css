@@ -1,5 +1,5 @@
 /* ======================================= */
-/* 0. RESET Y FUENTES GLOBALES */
+/* 1. RESET Y VARIABLES GLOBALES          */
 /* ======================================= */
 :root {
     --color-cafe-oscuro: #3E2723;
@@ -24,7 +24,7 @@ body {
 }
 
 /* ======================================= */
-/* 1. ENCABEZADO Y NAVEGACIÓN */
+/* 2. ENCABEZADO Y NAVEGACIÓN             */
 /* ======================================= */
 header {
     background-color: var(--color-cafe-oscuro);
@@ -38,24 +38,46 @@ header {
     z-index: 1000;
 }
 
+.logo {
+    display: flex;
+    flex-direction: row; 
+    gap: 12px; 
+    align-items: center; 
+}
+
 .logo h1 {
     font-family: var(--fuente-titulo);
-    font-size: 1rem;
-    margin-bottom: 2px;
-    margin: 0;
+    font-size: 1.8rem;
+    margin: 0; 
+    line-height: 1.1;
 }
 
 .logo p {
-    font-size: 0.8rem;
-    color: var(--color-acento);
-    margin: 0;
-    padding: 0 20px;
+    font-size: 0.9rem; 
+    color: var(--color-acento); 
+    margin-bottom: 0;
+    padding: 0 20px ;
+    white-space: nowrap; 
+}
+
+.header-coffee-icon {
+    width: 50px;
+    height: 50px;
+    margin: 0; 
+    border-radius: 50%;
+    object-fit: cover;
 }
 
 nav ul {
     list-style: none;
     display: flex;
     gap: 15px;
+}
+
+nav ul li {
+    display: flex;
+    align-items: center;
+    padding: 0 4px;
 }
 
 nav ul li a {
@@ -69,43 +91,82 @@ nav ul li a:hover {
     color: var(--color-acento);
 }
 
-.header-coffee-icon {
-    width: 40px; 
-    height: auto; 
-    margin-top: 5px; 
-    margin-bottom: 5px; 
-    vertical-align: middle; 
+/* ======================================= */
+/* 3. COMPONENTES DE BÚSQUEDA Y CARRITO   */
+/* ======================================= */
+.search-input {
+    padding: 8px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--color-acento);
+    background: white;
+    font-size: 15px;
+    margin-top: 6px; 
+    margin-bottom: 6px;
 }
 
-.logo {
-    display: flex;
-    flex-direction: row; 
-    gap: 5px; 
-    align-items: center; 
+.search-input:focus {
+    outline: none;
+    border-color: var(--color-cafe-oscuro);
 }
 
-.logo h1 {
-    font-size: 1.8rem;
-    margin-bottom: 0; 
+.cart-btn-nav {
+    background: var(--color-acento);
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    margin-top: 6px; 
+    margin-bottom: 6px;
 }
 
-.logo p {
-    font-size: 0.9rem; 
-    color: var(--color-acento); 
-    margin-bottom: 0;
-    white-space: nowrap; 
-}
-
-.header-coffee-icon {
-    width: 50px;
-    height: 50px;
-    margin: 0; 
-    border-radius: 50%;
-    object-fit: cover;
+.cart-btn-nav:hover {
+    background: var(--color-cafe-oscuro);
 }
 
 /* ======================================= */
-/* 2. ESTILOS GENERALES DE SECCIÓN */
+/* 4. SECCIÓN HERO (INICIO)               */
+/* ======================================= */
+.hero {
+    background: url('images/hero-coffee.avif') no-repeat center center/cover;
+    height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 150px;
+    align-items: center;
+    color: var(--color-fondo); 
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 50);
+    position: relative; 
+    z-index: 1;
+}
+
+.hero::before {
+    content: ''; 
+    position: absolute; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(62, 39, 35, 0.4); 
+    z-index: -1; 
+}
+
+.hero h2 {
+    font-size: 3.5rem;
+    color: var(--color-crema);
+    font-family: var(--fuente-titulo);
+}
+
+.hero p {
+    font-size: 1.2rem;
+    max-width: 700px;
+    margin-bottom: 20px;
+}
+
+/* ======================================= */
+/* 5. ESTILOS GENERALES Y BOTONES         */
 /* ======================================= */
 main section {
     padding: 80px 5%;
@@ -126,7 +187,6 @@ h3 {
     color: var(--color-acento);
 }
 
-/* Botón Principal (CTA) */
 .btn-principal {
     display: inline-block;
     background-color: var(--color-acento);
@@ -143,55 +203,8 @@ h3 {
     background-color: var(--color-cafe-oscuro);
 }
 
-
 /* ======================================= */
-/* 3. SECCIÓN HERO/INICIO */
-/* ======================================= */
-.hero {
-    background: url('images/hero-coffee.avif') no-repeat center center/cover;
-    height: 60vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-   
-    color: var(--color-fondo); 
-    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.9);
-    position: relative; 
-    z-index: 1;
-}
-.hero::before {
-    content: ''; 
-    position: absolute; 
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(62, 39, 35, 0.3); 
-    z-index: -1; 
-}
-
-.hero h2,
-.hero p,
-.hero .btn-principal {
-    z-index: 2; 
-    position: relative; 
-}
-
-.hero h2 {
-    font-size: 3.5rem;
-    color: var(--color-crema);
-}
-
-.hero p {
-    font-size: 1.2rem;
-    max-width: 700px;
-    margin-bottom: 20px;
-}
-
-
-/* ======================================= */
-/* 4. SECCIÓN MENÚ */
+/* 6. SECCIÓN MENÚ                         */
 /* ======================================= */
 .menu-section {
     background-color: var(--color-crema);
@@ -199,7 +212,6 @@ h3 {
 
 .menu-grid {
     display: grid;
-    /* 2 o 3 columnas en pantallas grandes */
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
     gap: 40px;
     text-align: left;
@@ -245,7 +257,6 @@ h3 {
     margin-top: 2px;
 }
 
-/* Botón agregar al carrito dentro del menú */
 .add-cart {
     display: inline-block;
     margin-top: 10px;
@@ -256,12 +267,13 @@ h3 {
     border-radius: 6px;
     cursor: pointer;
 }
+
 .add-cart:hover {
     background: var(--color-cafe-oscuro);
 }
 
 /* ======================================= */
-/* 5. SECCIÓN GALERÍA */
+/* 7. GALERÍA                             */
 /* ======================================= */
 .gallery-section {
     background-color: var(--color-fondo); 
@@ -296,17 +308,8 @@ h3 {
     height: 400px; 
 }
 
-@media (max-width: 768px) {
-    .gallery-grid {
-        grid-template-columns: 1fr; 
-        padding: 0 5%;
-    }
-    .gallery-item.large img {
-        height: 350px;
-    }
-}
 /* ======================================= */
-/* 5. SECCIONES SECUNDARIAS (Sobre Nosotros, Contacto) */
+/* 8. SECCIONES SOBRE NOSOTROS Y CONTACTO */
 /* ======================================= */
 .about-section {
     background-color: var(--color-fondo);
@@ -323,7 +326,7 @@ h3 {
 }
 
 /* ======================================= */
-/* 6. PIE DE PÁGINA (Footer) */
+/* 9. PIE DE PÁGINA (FOOTER)               */
 /* ======================================= */
 footer {
     background-color: var(--color-cafe-oscuro);
@@ -340,13 +343,10 @@ footer {
 }
 
 /* ======================================= */
-/* 7. MODALES (Login, Registro, Carrito) - CONSOLIDADO Y CORREGIDO */
+/* 10. MODALES                             */
 /* ======================================= */
 .modal {
-    /* CORRECCIÓN CLAVE: Solo 'display: none' por defecto. 
-       El JS lo cambiará a 'flex' para mostrar y centrar. */
     display: none; 
-    
     position: fixed;
     z-index: 2000; 
     left: 0;
@@ -354,11 +354,8 @@ footer {
     width: 100%;
     height: 100%;
     background: rgba(0,0,0,0.6);
-    
-    /* Mantenemos estas reglas de centrado para que funcionen cuando el JS ponga display:flex */
     justify-content: center;
     align-items: center;
-    
     overflow: auto;
 }
 
@@ -369,20 +366,21 @@ footer {
     max-width: 400px; 
     border-radius: 10px;
     box-shadow: 0 0 15px rgba(0,0,0,0.3);
-    position: relative; /* ¡Paso CRÍTICO! Establece el punto de origen (0,0) */
+    position: relative; 
     background-color: #fefefe;
-    display: flex; /* Habilita el centrado Flexbox */
-    justify-content: center; /* Centrado horizontal */
+    display: flex; 
+    justify-content: center; 
     align-items: center;
-    flex-direction: column; /* Alinea los elementos en columna */
+    flex-direction: column; 
 }
+
 .close {
     color: #aaa;
     font-size: 28px;
     font-weight: bold;
-    position: absolute; /* ¡CRÍTICO! Se posiciona respecto a .modal-content */
-    top: 5px; /* Ajusta la distancia del borde superior */
-    right: 15px; /* Ajusta la distancia del borde derecho */
+    position: absolute; 
+    top: 5px; 
+    right: 15px; 
     cursor: pointer;
 }
 
@@ -392,7 +390,7 @@ footer {
     text-decoration: none;
     cursor: pointer;
 }
-/* Encabezado del modal (PARA LA ALINEACIÓN DEL TÍTULO Y LA X) */
+
 .modal-header {
     display: flex;
     justify-content: space-between; 
@@ -425,18 +423,8 @@ footer {
     background: var(--color-cafe-oscuro);
 }
 
-/* SOLUCIÓN PARA LA "X" */
-.close {
-    font-size: 28px;
-    cursor: pointer;
-    margin-left: 15px; 
-    line-height: 1; 
-    color: #666; 
-}
-
-
 /* ======================================= */
-/* 8. BOTONES FLOTANTES */
+/* 11. BOTÓN LOGIN FLOTANTE                */
 /* ======================================= */
 .login-btn {
     position: fixed;
@@ -456,10 +444,8 @@ footer {
 }
 
 /* ======================================= */
-/* 9. CARRITO Y ELEMENTOS ASOCIADOS */
+/* 12. ELEMENTOS DEL CARRITO               */
 /* ======================================= */
-
-/* Estilo para cada producto individual en la lista */
 .cart-item {
     display: flex;
     justify-content: space-between;
@@ -472,7 +458,6 @@ footer {
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
-/* Estilo para el botón Quitar (rojo) */
 .cart-item button {
     background: #d9534f; 
     color: white;
@@ -491,7 +476,6 @@ footer {
     text-align: center;
 }
 
-/* Estilos ESENCIALES para el Resumen del Carrito (Total a pagar) */
 .cart-summary {
     display: flex;
     justify-content: space-between;
@@ -503,9 +487,8 @@ footer {
     font-weight: bold;
 }
 
-/* El h3 alrededor del total no es necesario, solo enfocamos el estilo en el span y el contenedor */
 .cart-summary h3 {
-    margin: 0; /* Elimina márgenes extra si el h3 existe en tu HTML */
+    margin: 0; 
 }
 
 .total-price {
@@ -513,7 +496,6 @@ footer {
     font-size: 1.8rem; 
 }
 
-/* Contenedor de botones (Vaciar y Finalizar) */
 .cart-actions {
     display: flex;
     justify-content: space-between;
@@ -521,7 +503,6 @@ footer {
     margin-top: 20px;
 }
 
-/* Botones de acción del carrito (Marrón Suave) */
 .btn-clear, .btn-checkout {
     width: 50%; 
     padding: 12px;
@@ -530,61 +511,15 @@ footer {
     cursor: pointer;
     color: white;
     font-weight: bold;
-    background-color: #a89487; /* Marrón Suave */
+    background-color: #a89487; 
 }
 
 .btn-clear:hover, .btn-checkout:hover {
     background-color: #8c7a70;
 }
 
-
 /* ======================================= */
-/* 10. ELEMENTOS DE NAVEGACIÓN (Consolidado) */
-/* ======================================= */
-
-/* Botón de carrito en la barra de navegación */
-.cart-btn-nav {
-    background: var(--color-acento);
-    color: white;
-    padding: 8px 15px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 15px;
-    margin-top: 6px; 
-    margin-bottom: 6px;
-}
-
-.cart-btn-nav:hover {
-    background: var(--color-cafe-oscuro);
-}
-
-/* Consolidación de reglas de alineación */
-nav ul li {
-    display: flex;
-    align-items: center;
-    padding: 0 4px;
-}
-
-/* ====== BUSCADOR DE PRODUCTOS ====== */
-
-.search-input {
-    padding: 8px 14px;
-    border-radius: 8px;
-    border: 1px solid var(--color-acento);
-    background: white;
-    font-size: 15px;
-    margin-top: 6px; 
-    margin-bottom: 6px;
-}
-
-.search-input:focus {
-    outline: none;
-    border-color: var(--color-cafe-oscuro);
-}
-
-/* ======================================= */
-/* 11. RESPONSIVO */
+/* 13. RESPONSIVO (QUERIES)                */
 /* ======================================= */
 @media (max-width: 600px) {
     .modal-content { 
@@ -601,61 +536,53 @@ nav ul li {
         flex-wrap: wrap; 
     }
 }
-/* ======================================================= */
-/* MEDIA QUERY: ESTILOS PARA DISPOSITIVOS MÓVILES (MÁXIMO 768PX) */
-/* ======================================================= */
-@media (max-width: 768px) {
 
-    /* --- 1. CONFIGURACIÓN DEL ENCABEZADO PRINCIPAL (header) --- */
-    /* El header contendrá el logo (izquierda) y el menú (abajo) */
+@media (max-width: 768px) {
+    .gallery-grid {
+        grid-template-columns: 1fr; 
+        padding: 0 5%;
+    }
+    .gallery-item.large img {
+        height: 350px;
+    }
+
     header {
         display: flex;
-        /* El logo será el primer elemento y se alineará a la izquierda automáticamente */
         flex-direction: column; 
-        align-items: flex-start; /* Alinea los elementos a la izquierda */
+        align-items: flex-start; 
         padding: 10px 15px;
     }
 
-    /* --- 2. LOGOTIPO Y SLOGAN (Corregido a la Izquierda) --- */
     .logo {
-        /* Eliminamos 'position: absolute' y 'right: 15px' */
         display: flex;
         flex-direction: row; 
         align-items: center; 
         gap: 5px; 
         width: auto; 
-        /* Eliminamos las propiedades de posicionamiento absoluto para que quede estático en la esquina superior izquierda */
         position: static; 
         margin-top: 0;
-        margin-bottom: 5px; /* Pequeño espacio debajo del logo */
+        margin-bottom: 5px; 
     }
 
-    /* Ocultar el Slogan (el párrafo dentro de .logo) */
     .logo p {
         display: none; 
     }
     
-    /* Reducir el tamaño del Título del logo */
     .logo h1 {
         font-size: 1.2em; 
         margin: 0;
     }
 
-    /* Reducir el tamaño del Icono */
     .header-coffee-icon {
         width: 30px; 
         height: 30px;
     }
 
-    /* --- 3. BARRA DE NAVEGACIÓN Y BUSCADOR --- */
-    /* La navegación aparecerá justo debajo del logo */
     nav {
         width: 100%;
-        margin-top: 0; /* Ya no necesitamos el margen superior que usamos para evitar el logo derecho */
-        order: 1; /* Asegura que la navegación aparezca después del logo */
+        order: 1; 
     }
     
-    /* Navegación (nav ul): Mantiene el scroll horizontal */
     nav ul {
         display: flex;
         flex-wrap: nowrap;
@@ -672,12 +599,10 @@ nav ul li {
         flex-shrink: 0; 
     }
 
-    /* Reducir el tamaño del buscador */
     .search-input {
         width: 120px;
     }
 
-    /* --- 4. CORRECCIÓN DE TÍTULOS Y DESBORDAMIENTO --- */
     .hero h2 {
         font-size: 2.2em; 
         line-height: 1.2;

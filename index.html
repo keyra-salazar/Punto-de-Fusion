@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Punto de Fusión - Cafetería</title>
     <link rel="stylesheet" href="style.css" />
-     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </head>
    
@@ -46,8 +46,7 @@
 
         <section id="menu" class="menu-section">
             <h2>Nuestro Menú Completo</h2>
-           <div class="menu-grid" id="menu-container">
-                </div>
+            <div class="menu-grid" id="menu-container"></div>
         </section>
 
         <section id="nosotros" class="about-section">
@@ -60,27 +59,27 @@
             <div class="gallery-grid">
                 
                 <div class="gallery-item large">
-                    <img src="images/establecimiento-interior.jpg" alt="Interior moderno de la cafetería con mesas de madera y buena iluminación">
+                    <img src="images/establecimiento-interior.jpg" alt="Interior moderno">
                 </div>
                 
                 <div class="gallery-item large">
-                    <img src="images/establecimiento-barra.jpg" alt="Barra de café con máquina de espresso y barista preparando una bebida">
+                    <img src="images/establecimiento-barra.jpg" alt="Barra de café">
                 </div>
                 
                 <div class="gallery-item">
-                    <img src="images/producto-latte-art.jpg" alt="Primer plano de un Latte con arte de corazón">
+                    <img src="images/producto-latte-art.jpg" alt="Latte Art">
                 </div>
                 
                 <div class="gallery-item">
-                    <img src="images/producto-croissant.jpg" alt="Croissant recién horneado con café">
+                    <img src="images/producto-croissant.jpg" alt="Croissant">
                 </div>
                 
                 <div class="gallery-item">
-                    <img src="images/producto-cold-brew.jpg" alt="Cold Brew en vaso helado con hielo">
+                    <img src="images/producto-cold-brew.jpg" alt="Cold Brew">
                 </div>
 
                 <div class="gallery-item">
-                    <img src="images/producto-comida-tostada.jpg" alt="Tostada de aguacate en pan artesanal">
+                    <img src="images/producto-comida-tostada.jpg" alt="Tostada">
                 </div>
 
             </div>
@@ -105,24 +104,22 @@
 
     <div id="cartModal" class="modal">
         <div class="modal-content cart-content">
-            
             <div class="modal-header">
                 <h2>Tu Carrito</h2>
                 <span class="close" onclick="closeModal('cartModal')">&times;</span> 
             </div>
             
-             <div id="cartItems" class="cart-items-list">
-                </div>
+            <div id="cartItems" class="cart-items-list"></div>
 
             <div class="cart-summary">
                 <h3>Total: 
-                <span class="total-price">$<span id="cartTotal">0.00</span></span>
+                    <span class="total-price">$<span id="cartTotal">0.00</span></span>
                 </h3>
             </div>
 
             <div class="cart-actions">
                 <button class="btn-clear" onclick="clearCart()">Vaciar Carrito</button>
-                <button class="btn-checkout" onclick="alert('¡Gracias por tu compra! (Funcionalidad pendiente)')">Finalizar Pedido</button>
+                <button class="btn-checkout" onclick="alert('¡Gracias por tu compra!')">Finalizar Pedido</button>
             </div>
         </div>
     </div>
@@ -140,24 +137,20 @@
         </div>
     </div>
 
-<div id="registerModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal('registerModal')">&times;</span>
-        <h2>Crear Cuenta</h2>
-        <input type="text" id="regUser" placeholder="Usuario">
-        
-        <input type="email" id="regEmail" placeholder="Correo Electrónico">
-        
-        <input type="password" id="regPass" placeholder="Contraseña">
-        <input type="password" id="regPass2" placeholder="Repetir contraseña">
-        <button onclick="register()">Registrar</button>
-        <p>¿Ya tienes cuenta? <a href="#" onclick="switchModal('registerModal','loginModal')">Inicia sesión</a></p>
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('registerModal')">&times;</span>
+            <h2>Crear Cuenta</h2>
+            <input type="text" id="regUser" placeholder="Usuario">
+            <input type="email" id="regEmail" placeholder="Correo Electrónico">
+            <input type="password" id="regPass" placeholder="Contraseña">
+            <input type="password" id="regPass2" placeholder="Repetir contraseña">
+            <button onclick="register()">Registrar</button>
+            <p>¿Ya tienes cuenta? <a href="#" onclick="switchModal('registerModal','loginModal')">Inicia sesión</a></p>
+        </div>
     </div>
-</div>
 
     <script src="script.js"></script>
     
-    
 </body>
-
 </html>

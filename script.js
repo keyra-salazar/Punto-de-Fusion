@@ -1,5 +1,5 @@
 // ====================================================================
-// =================== CONFIGURACIÓN INICIAL Y DATOS ==================
+// 1. CONFIGURACIÓN INICIAL Y VARIABLES GLOBALES
 // ====================================================================
 let cart = [];
 let menuData = [];
@@ -9,13 +9,12 @@ const DB_VERSION = 1;
 
 // --- Funciones de Utilidad ---
 
-// Función para cifrado simple de contraseñas (Requisito: password encriptado)
+// Cifrado Base64 para contraseñas
 function encryptPassword(password) {
-    // Usamos Base64 como un 'cifrado' simulado simple para cumplir el requisito
     return btoa(password); 
 }
 
-// Función de notificaciones con Toastify (Requisito: Toastify)
+// Sistema de notificaciones (Toastify)
 function showToast(message, type = 'success') {
     Toastify({
         text: message,
@@ -31,9 +30,8 @@ function showToast(message, type = 'success') {
 }
 
 // ====================================================================
-// ========================= INDEXDB (USUARIOS) =======================
+// 2. GESTIÓN DE BASE DE DATOS (INDEXDB)
 // ====================================================================
-
 let db;
 
 function openDB() {
@@ -52,18 +50,15 @@ function openDB() {
 
         request.onupgradeneeded = (event) => {
             db = event.target.result;
-            // Crear la tienda de objetos 'users' (Requisito: IndexDB)
             if (!db.objectStoreNames.contains('users')) {
-                // El email es la clave única (keyPath)
                 db.createObjectStore('users', { keyPath: 'email' }); 
             }
         };
     });
 }
 
-
 // ====================================================================
-// ======================= AUTENTICACIÓN (LOGIN/REGISTRO) =============
+// 3. AUTENTICACIÓN (REGISTRO Y LOGIN)
 // ====================================================================
 
 async function register() {
@@ -72,19 +67,16 @@ async function register() {
     const pass = document.getElementById('regPass').value;
     const pass2 = document.getElementById('regPass2').value;
 
-    // 1. Validación de campos obligatorios (Requisito: validación) [cite: 19]
     if (!user || !email || !pass || !pass2) {
         showToast("Todos los campos son obligatorios.", 'error');
         return;
     }
     
-    // 2. Validación de formato de email 
     if (!email.includes('@') || !email.includes('.') || email.length < 5) {
         showToast("Formato de email inválido.", 'error');
         return;
     }
 
-    // 3. Validación de coincidencia de contraseñas
     if (pass !== pass2) {
         showToast("Las contraseñas no coinciden.", 'error');
         return;
@@ -105,13 +97,12 @@ async function register() {
     };
 
     request.onerror = () => {
-        // Error de duplicado (mismo email)
-        showToast("El email ya está registrado o hubo un error de DB.", 'error');
+        showToast("El email ya está registrado.", 'error');
     };
 }
 
 async function login() {
-    const email = document.getElementById('loginUser').value.trim(); // Usamos 'loginUser' como email/usuario
+    const email = document.getElementById('loginUser').value.trim(); 
     const pass = document.getElementById('loginPass').value;
 
     if (!email || !pass) {
@@ -123,7 +114,7 @@ async function login() {
 
     const transaction = db.transaction(['users'], 'readonly');
     const store = transaction.objectStore('users');
-    const request = store.get(email); // Buscar por email (clave única de IndexDB)
+    const request = store.get(email); 
 
     request.onsuccess = (event) => {
         const userRecord = event.target.result;
@@ -134,12 +125,10 @@ async function login() {
             if (encryptedInputPass === userRecord.password) {
                 showToast(`¡Bienvenido, ${userRecord.user}!`);
                 closeModal('loginModal'); 
-                // Redirige a la Pagina Principal de la empresa (simulando con cierre de modal) [cite: 16]
             } else {
                 showToast("Contraseña incorrecta.", 'error');
             }
         } else {
-            // Error de validacion si no estan en la Base 
             showToast("Usuario no encontrado.", 'error');
         }
     };
@@ -149,9 +138,8 @@ async function login() {
     };
 }
 
-
 // ====================================================================
-// ====================== MODALES Y NAVEGACIÓN ========================
+// 4. CONTROL DE INTERFAZ (MODALES)
 // ====================================================================
 
 function openModal(id) {
@@ -175,76 +163,56 @@ function switchModal(oldId, newId) {
 }
 
 // ====================================================================
-// ====================== MENÚ Y BÚSQUEDA AJAX ========================
+// 5. MENÚ DINÁMICO Y BÚSQUEDA (AJAX/FETCH)
 // ====================================================================
 
-// Carga de menú (Simulando carga AJAX con Fetch)
 async function loadMenu() {
     try {
-        // Asegúrate que 'menu.json' esté en la raíz o ajusta la ruta
         const response = await fetch('menu.json');
-        if (!response.ok) {
-            throw new Error('Error al cargar menu.json');
-        }
+        if (!response.ok) throw new Error('Error al cargar menu.json');
         menuData = await response.json();
         renderMenu(menuData);
     } catch (error) {
-        console.error('Error al cargar el menú:', error);
-        document.getElementById('menu-container').innerHTML = `<p style="text-align:center; color: #a89487;">Error al cargar el menú. Por favor, asegúrate de usar Live Server (VS Code).</p>`;
+        console.error('Error:', error);
+        document.getElementById('menu-container').innerHTML = `<p style="text-align:center; color: #a89487;">Error al cargar el menú.</p>`;
     }
 }
 
-// Renderiza el menú
-
 function renderMenu(data) {
     const container = document.getElementById('menu-container');
-    
-    if (!container) {
-        console.error("Error FATAL: No se encontró el elemento con ID 'menu-container'. Por favor, revisa tu index.html");
-        return;
-    }
+    if (!container) return;
 
-    container.innerHTML = ''; // Limpiar contenido
+    container.innerHTML = ''; 
 
     data.forEach(category => {
-        // Usamos la clave 'nombre' del JSON para el título (ej. "I. Bebidas Calientes (La Esencia)")
-        const categoryTitleText = category.nombre; 
-        
-        // 1. Crear el contenedor de la categoría
         const categoryArticle = document.createElement('article');
         categoryArticle.className = 'menu-category';
+        
         const categoryTitle = document.createElement('h3');
-        categoryTitle.textContent = ` ${categoryTitleText}`; 
+        categoryTitle.textContent = ` ${category.nombre}`; 
         
         const productList = document.createElement('ul');
 
         category.productos.forEach(product => {
             const listItem = document.createElement('li');
-            
             const priceValue = Number(product.precio) || 0; 
             const productName = product.nombre.replace(/'/g, "\\'"); 
 
-            // Estructura HTML que debe coincidir con tu style.css (LISTA)
             listItem.innerHTML = `
                 <span class="product-name">${product.nombre}</span> 
                 <span class="price">$${priceValue.toFixed(2)}</span>
                 <p class="description">${product.descripcion}</p>
-                
                 <div class="product-actions">
                     <button class="add-cart" onclick="addToCart({name: '${productName}', price: ${priceValue}})">
                         Agregar 🛒
                     </button>
                 </div>
             `;
-            
             productList.appendChild(listItem);
         });
         
-        // Añado Título y Lista al Article
         categoryArticle.appendChild(categoryTitle); 
         categoryArticle.appendChild(productList); 
-
-        // Finalmente, añado el Article al Contenedor principal
         container.appendChild(categoryArticle); 
     });
 }
@@ -252,13 +220,11 @@ function renderMenu(data) {
 function filterMenu() {
     const searchTerm = searchInput.value.toLowerCase().trim();
     
-    // Si el término de búsqueda está vacío, volvemos a mostrar todo el menú
     if (searchTerm === '') {
         renderMenu(menuData);
         return;
     }
 
-    // Filtrar productos por nombre o descripción
     const filteredData = menuData.map(category => {
         const filteredProducts = category.productos.filter(product => 
             product.nombre.toLowerCase().includes(searchTerm) || 
@@ -271,21 +237,19 @@ function filterMenu() {
 }
 
 // ====================================================================
-// ======================== CARRITO DE COMPRAS ========================
+// 6. LÓGICA DEL CARRITO DE COMPRAS
 // ====================================================================
 
 function calculateTotal() {
     return cart.reduce((sum, item) => sum + Number(item.price), 0);
 }
 
-// Añadir producto al carrito (Requisito: manera fácil de añadir artículo) [cite: 22]
 function addToCart(item) {
     cart.push(item);
     showToast(`✅ ${item.name} añadido al carrito.`);
     updateCartUI();
 }
 
-// Quitar producto por índice (Requisito: cancelar o editar productos) [cite: 23]
 function removeFromCart(index) {
     if (index >= 0 && index < cart.length) {
         const removedItem = cart.splice(index, 1)[0];
@@ -294,7 +258,6 @@ function removeFromCart(index) {
     updateCartUI();
 }
 
-// Vaciar carrito
 function clearCart() {
     if (cart.length === 0) {
         showToast("El carrito ya está vacío.", 'error');
@@ -305,33 +268,23 @@ function clearCart() {
     updateCartUI();
 }
 
-// Actualizar contador, listado y total
 function updateCartUI() {
     const countEl = document.getElementById("cartCount");
     const totalEl = document.getElementById("cartTotal");
     const container = document.getElementById("cartItems");
     
-    // 1. Actualizar el contador de la barra de navegación
     if (countEl) countEl.innerText = cart.length; 
-
-    // Solo procede si estamos dentro del modal del carrito
     if (!container || !totalEl) return; 
 
     container.innerHTML = "";
-
-    // 2. Calcular y actualizar el total
     const total = calculateTotal().toFixed(2);
     totalEl.innerText = total; 
 
     if (cart.length === 0) {
-        const empty = document.createElement("div");
-        empty.className = "cart-empty";
-        empty.innerText = "Tu carrito está vacío.";
-        container.appendChild(empty);
+        container.innerHTML = `<div class="cart-empty">Tu carrito está vacío.</div>`;
         return;
     }
 
-    // 3. Listar productos
     cart.forEach((item, index) => {
         const div = document.createElement("div");
         div.className = "cart-item";
@@ -349,19 +302,16 @@ function updateCartUI() {
 }
 
 // ====================================================================
-// ====================== INICIO DE LA APLICACIÓN =====================
+// 7. INICIALIZACIÓN (DOM READY)
 // ====================================================================
 
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Cargar el menú al iniciar
     loadMenu(); 
     
-    // 2. Inicializar la base de datos (IndexDB)
     openDB().catch(error => {
-        console.error("Error grave al inicializar la base de datos:", error);
+        console.error("Error al inicializar la base de datos:", error);
     });
 
-    // 3. CONFIGURAR EL BUSCADOR (Inicializar la variable global sin 'const' o 'let')
     searchInput = document.getElementById('buscador'); 
     if (searchInput) {
         searchInput.addEventListener('input', filterMenu); 
