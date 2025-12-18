@@ -22,16 +22,18 @@ function updateCartUI() {
         items.innerHTML = cart.length === 0 ? '<p class="cart-empty">Tu carrito está vacío</p>' : "";
         
         cart.forEach((p, i) => {
-            // Estructura de "Tarjeta" con info a la izquierda y botón a la derecha
-            items.innerHTML += `
-                <div class="cart-item-card">
-                    <div class="item-details">
-                        <span class="item-name">${p.name}</span>
-                        <span class="item-price">$${p.price}</span>
-                    </div>
-                    <button class="btn-quitar" onclick="removeFromCart(${i})">Quitar</button>
-                </div>`;
-        });
+    items.innerHTML += `
+        <div class="cart-item" style="display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid #eee;">
+            <div class="item-details">
+                <div class="item-name" style="font-weight: bold; font-size: 1.1rem;">${p.name}</div>
+                <div class="item-price" style="color: #666;">$${p.price}</div>
+            </div>
+            <button class="btn-quitar" onclick="removeFromCart(${i})" 
+                style="background-color: #d9534f !important; color: white !important; border: none !important; padding: 8px 15px !important; border-radius: 5px !important; cursor: pointer; font-weight: bold;">
+                Quitar
+            </button>
+        </div>`;
+});
     }
 
     if (total) {
