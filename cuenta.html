@@ -1,0 +1,22 @@
+<div id="cuentaModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button class="close-modal" onclick="closeModal('cuentaModal')" style="position:absolute; right:15px; top:15px; background:none; border:none; color:white; font-size:24px; cursor:pointer;">&times;</button>
+            <h2>Mi Cuenta</h2>
+        </div>
+        
+        <div id="modalContentBody" class="modal-body">
+            <div class="user-avatar">☕</div>
+            <div class="user-details">
+                <p><strong>Nombre de Usuario</strong> <span id="userName">Cargando...</span></p>
+                <p><strong>Correo Electrónico</strong> <span id="userEmail">Cargando...</span></p>
+            </div>
+            
+            <div class="account-actions">
+                <button class="btn-account">📋 Historial de Pedidos</button>
+                <button class="btn-account">📍 Mis Direcciones</button>
+                <button class="btn-account btn-logout-red" onclick="logout()">Cerrar Sesión</button>
+            </div>
+        </div>
+    </div>
+</div>

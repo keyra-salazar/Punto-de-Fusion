@@ -11,30 +11,46 @@
    
 <body>
 
-    <header>
+   <header>
+    <div class="header-left">
+        <button class="menu-bars" onclick="toggleMenu()">&#9776;</button>
+
         <div class="logo">
             <h1>Punto de Fusión</h1>
             <img src="images/coffee-bean-logo.png" alt="Icono de grano de café" class="header-coffee-icon">
             <p>El blend perfecto para tu día.</p>
         </div>
-        <nav>
-            <ul>
-                <li><a href="#inicio">Inicio</a></li>
-                <li><a href="#menu">Menú</a></li>
-                <li><a href="#nosotros">Sobre Nosotros</a></li>
-                <li><a href="#galeria">Galería</a></li>
-                <li><a href="#contacto">Contacto</a></li>
+    </div>
 
-                <li>
-                    <input type="text" id="buscador" placeholder="Buscar producto..." class="search-input" autocomplete="new-password">
-                </li>
-
-                <li>
-                    <button class="cart-btn-nav" onclick="openCart()">🛒 <span id="cartCount">0</span></button>
-                </li>
-            </ul>
-        </nav>
+    <div class="header-right-tools">
+        <input type="text" id="buscador" placeholder="Buscar producto..." class="search-input">
+        <button class="cart-btn-nav" onclick="openCart()">🛒 <span id="cartCount">0</span></button>
+    </div>
+    
     </header>
+
+    <div id="sideMenu" class="side-menu">
+    <div class="nav-header">
+        <button class="close-menu" onclick="toggleMenu()">&times;</button>
+        <span class="menu-title">Punto de <br> Fusión</span>
+    </div>
+
+    <ul class="menu-list">
+        <li><button onclick="toggleMenu(); location.href='#inicio'">Inicio</button></li>
+        <li><button onclick="toggleMenu(); location.href='#menu'">Menú</button></li>
+        <li><button onclick="toggleMenu(); location.href='#nosotros'">Sobre Nosotros</button></li>
+        <li><button onclick="toggleMenu(); location.href='#galeria'">Galería</button></li>
+        <li><button onclick="toggleMenu(); location.href='#contacto'">Contacto</button></li>
+        <li class="menu-divider"></li>
+        <li>
+            <button onclick="abrirCuenta()" class="btn-with-arrow">
+Cuenta <span>&rsaquo;</span>
+</button>
+        </li>
+        <li><button onclick="logout()" class="btn-logout">Cerrar Sesión</button></li>
+    </ul>
+</div>
+</header>
 
     <main>
 
@@ -150,7 +166,10 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/menu.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/main.js"></script>
     
 </body>
 </html>
